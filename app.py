@@ -9,6 +9,10 @@ from pandasai.llm import BambooLLM
 from pandasai import Agent
 from pandasai.responses.streamlit_response import StreamlitResponse
 import os
+from pandasai.llm import OpenAI
+
+
+
 
 # Load environment variables
 load_dotenv()
@@ -17,8 +21,8 @@ load_dotenv()
 data = {}
 
 def main():
-    st.set_page_config(page_title = "PandasAI",page_icon = "🐼")
-    st.title("Chat with Your Data using PandasAI:🐼")
+    st.set_page_config(page_title = "Inteligent data", page_icon = "🐼")
+    st.title("Chatea con Enzo-Regina:🐼")
     #reading the csv file
     
     #Side Menu Bar
@@ -33,13 +37,13 @@ def main():
         #selecting LLM to use
         llm_type = st.selectbox(
                             "Please select LLM",
-                            ('BambooLLM','gemini-pro'),index=0)
+                            ('OpenAI','Otro bot - Not ready'),index=0)
         
         #Adding users API Key
         user_api_key = st.text_input('Please add your API key',placeholder='Paste your API key here',type = 'password')
         
         #Get Pandas API key here
-        st.markdown("[Get Your PandasAI API key here](https://www.pandabi.ai/auth/sign-up)")
+        st.markdown("[Made by Lihard]()")
 
     if file_upload is not None:
         data  = extract_dataframes(file_upload)
@@ -48,8 +52,15 @@ def main():
                           )
         st.dataframe(data[df])
 
+
         
-        llm = get_LLM(llm_type,user_api_key)
+        openai_llm = OpenAI(
+          api_token=user_api_key,
+         )
+
+
+
+        llm = openai_llm
 
         if llm:
             #Instattiating PandasAI agent
@@ -189,5 +200,3 @@ def extract_dataframes(raw_file):
 
 if __name__ == "__main__":
     main()
-
-
